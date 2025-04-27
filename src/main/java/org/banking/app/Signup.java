@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Signup extends JFrame {
 
-    JTextField nameField, fNameField, genderField;
+    JTextField nameField, fNameField, emailField;
     JDateChooser dateChooser;
     JRadioButton male, female;
     // generate random application form number
@@ -82,24 +82,36 @@ public class Signup extends JFrame {
         labelGender.setFont(new Font("Raleway", Font.BOLD,20));
         add(labelGender);
 
-
+        //-----------Male Button------//
         male = new JRadioButton("Male");
         male.setFont(new Font("Raleway", Font.BOLD,15));
         male.setBackground(new Color(222,255,228));
         male.setBounds(300,340,90,30);
         add(male);
 
+        //-------Female Button------//
         female = new JRadioButton("Female");
         female.setFont(new Font("Raleway", Font.BOLD,15));
         female.setBackground(new Color(222,255,228));
         female.setBounds(450,340,90,30);
         add(female);
-
+        //---------For swing between buttons-------//
         ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(male);
         buttonGroup.add(female);
 
 
+        //----------Email----------//
+
+        JLabel labelEmail = new JLabel("Email");
+        labelEmail.setBounds(100,390,100,30);
+        labelEmail.setFont(new Font("Raleway", Font.BOLD,20));
+        add(labelEmail);
+
+        emailField = new JTextField(20);
+        emailField.setFont(new Font("Raleway", Font.BOLD,15));
+        emailField.setBounds(300,390,400,30);
+        add(emailField);
 
 
 
