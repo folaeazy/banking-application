@@ -1,15 +1,21 @@
 package org.banking.app;
 
 import com.toedter.calendar.JDateChooser;
+
+import javax.management.remote.JMXConnectionNotification;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
-public class Signup extends JFrame {
 
-    JTextField nameField, fNameField, emailField;
+public class Signup extends JFrame  implements ActionListener {
+
+    JTextField nameField, fNameField, emailField ,addressField, cityField, pinCodeField, stateField;
     JDateChooser dateChooser;
-    JRadioButton male, female;
+    JRadioButton male, female, married, single, other;
+    JButton next;
     // generate random application form number
     Random random = new Random();
     long first4 = (random.nextLong() % 9000L)  + 1000L;
@@ -96,9 +102,9 @@ public class Signup extends JFrame {
         female.setBounds(450,340,90,30);
         add(female);
         //---------For swing between buttons-------//
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(male);
-        buttonGroup.add(female);
+        ButtonGroup buttonGroup1 = new ButtonGroup();
+        buttonGroup1.add(male);
+        buttonGroup1.add(female);
 
 
         //----------Email----------//
@@ -113,6 +119,98 @@ public class Signup extends JFrame {
         emailField.setBounds(300,390,400,30);
         add(emailField);
 
+        //------Marital status---------//
+
+        JLabel labelMarried = new JLabel("Marital Status");
+        labelMarried.setBounds(100,440,100,30);
+        labelMarried.setFont(new Font("Raleway", Font.BOLD,20));
+        add(labelMarried);
+
+        //-----------Single Button------//
+        single = new JRadioButton("Single");
+        single.setFont(new Font("Raleway", Font.BOLD,15));
+        single.setBackground(new Color(222,255,228));
+        single.setBounds(300,440,90,30);
+        add(single);
+
+        //-------Married Button------//
+        married = new JRadioButton("Married");
+        married.setFont(new Font("Raleway", Font.BOLD,15));
+        married.setBackground(new Color(222,255,228));
+        married.setBounds(450,440,90,30);
+        add(married);
+
+        //-------other button---//
+        other = new JRadioButton("Other");
+        other.setBackground(new Color(222,255,228));
+        other.setFont(new Font("Raleway", Font.BOLD,15));
+        other.setBounds(550,440,90,30);
+        add(other);
+        //---------For swing between buttons-------//
+        ButtonGroup buttonGroup2 = new ButtonGroup();
+        buttonGroup2.add(single);
+        buttonGroup2.add(married);
+        buttonGroup2.add(other);
+
+
+        //-------Address-----//
+        JLabel labelAddress = new JLabel("Address :");
+        labelAddress.setFont(new Font("Raleway", Font.BOLD, 20));
+        labelAddress.setBounds(100,490,200,30);
+        add(labelAddress);
+
+        addressField = new JTextField();
+        addressField.setFont(new Font("Raleway",Font.BOLD, 14));
+        addressField.setBounds(300,490,400,30);
+        add(addressField);
+
+        //-------CITY-----//
+        JLabel labelCity = new JLabel("City :");
+        labelCity.setFont(new Font("Raleway", Font.BOLD, 20));
+        labelCity.setBounds(100,540,200,30);
+        add(labelCity);
+
+        cityField = new JTextField();
+        cityField.setFont(new Font("Raleway",Font.BOLD, 14));
+        cityField.setBounds(300,540,400,30);
+        add(cityField);
+
+
+        //-------PIN CODE-----//
+        JLabel labelPincode = new JLabel("Pin Code :");
+        labelPincode.setFont(new Font("Raleway", Font.BOLD, 20));
+        labelPincode.setBounds(100,590,200,30);
+        add(labelPincode);
+
+        pinCodeField = new JTextField();
+        pinCodeField.setFont(new Font("Raleway",Font.BOLD, 14));
+        pinCodeField.setBounds(300,590,400,30);
+        add(pinCodeField);
+
+
+
+        //-------State-----//
+        JLabel labelState = new JLabel("State :");
+        labelState.setFont(new Font("Raleway", Font.BOLD, 20));
+        labelState.setBounds(100,640,200,30);
+        add(labelState);
+
+        stateField = new JTextField();
+        stateField.setFont(new Font("Raleway",Font.BOLD, 14));
+        stateField.setBounds(300,640,400,30);
+        add(stateField);
+
+
+        //-----------NExt Button----------//
+
+        next = new JButton("Next");
+        next.setFont(new Font("Raleway",Font.BOLD, 14));
+        next.setBackground(Color.WHITE);
+        next.setForeground(Color.BLACK);
+        next.setBounds(620,710,80,30);
+        next.addActionListener(this);
+        add(next);
+
 
 
 
@@ -123,7 +221,64 @@ public class Signup extends JFrame {
         setVisible(true);
     }
 
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        // Getting text fields value-------//
+        String formNo = formNumber;
+        String name = nameField.getText();
+        String fatherName = fNameField.getText();
+        String email = emailField.getText();
+        String address = addressField.getText();
+        String city = cityField.getText();
+        String pinCode = pinCodeField.getText();
+        String state = stateField.getText();
+        //DOB field for dateChooser UI
+        String dob = ( (JTextField) dateChooser.getDateEditor().getUiComponent()).getText();
+
+        // Getting radio buttons values
+        String gender = null;
+        if (male.isSelected()) {
+            gender = "Male";
+        } else if (female.isSelected()) {
+            gender = "Female";
+
+        }
+
+        String marital = null;
+        if(single.isSelected()) {
+            marital = "Single";
+        } else if (married.isSelected()) {
+            marital = "Married";
+        } else if (other.isSelected()) {
+            marital = "Other";
+        }
+
+        try{
+            if(nameField.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null,"Fill all fields");
+            }else {
+                ConnectionDb connectionDb = new ConnectionDb();
+                String query = "INSERT INTO signup (formno, name, father_name, dob, gender, email, marital_status, address, city, pin_code, state) " +
+                        "VALUES ('"+formNo+"', '"+name+"','"+fatherName+"','"+dob+"','"+gender+"','"+email+"','"+marital+"', '"+address+"', '"+city+"','"+pinCode+"','"+state+"')";
+
+                //connectionDb.statement.executeUpdate(query);
+                new Signup2(formNo);
+                setVisible(false);
+
+
+            }
+
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
     public static  void main(String[] args) {
         new Signup();
     }
+
 }
