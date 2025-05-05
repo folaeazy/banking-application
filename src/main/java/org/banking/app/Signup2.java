@@ -193,6 +193,18 @@ public class Signup2 extends JFrame  implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+
+     // Selecting Combo box value --------//
+     String religion = ( String ) religionComboBox.getSelectedItem();
+     String category = ( String ) categoryComboBox.getSelectedItem();
+     String income = ( String ) incomeComboBox.getSelectedItem();
+     String education = ( String ) educationComboBox.getSelectedItem();
+     String occupation = ( String ) occupationComboBox.getSelectedItem();
+
+     String pan = panField.getText();
+
+
+
     }
 
     public static void  main(String[] args) {

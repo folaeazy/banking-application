@@ -263,7 +263,7 @@ public class Signup extends JFrame  implements ActionListener {
                 String query = "INSERT INTO signup (formno, name, father_name, dob, gender, email, marital_status, address, city, pin_code, state) " +
                         "VALUES ('"+formNo+"', '"+name+"','"+fatherName+"','"+dob+"','"+gender+"','"+email+"','"+marital+"', '"+address+"', '"+city+"','"+pinCode+"','"+state+"')";
 
-                //connectionDb.statement.executeUpdate(query);
+                connectionDb.statement.executeUpdate(query);
                 new Signup2(formNo);
                 setVisible(false);
 

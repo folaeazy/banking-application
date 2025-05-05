@@ -4,8 +4,8 @@ import java.sql.*;
 
 public class ConnectionDb {
 
-    private String jdbcUrl = "jdbc:posgresql://localhost:5432/bankapp";
-    private String username = "root";
+    private String jdbcUrl = "jdbc:postgresql://localhost:5432/bankapp";
+    private String username = "raymond";
     private  String password = "12345678";
     Statement statement;
     public ConnectionDb() {
