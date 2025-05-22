@@ -202,7 +202,39 @@ public class Signup2 extends JFrame  implements ActionListener {
      String occupation = ( String ) occupationComboBox.getSelectedItem();
 
      String pan = panField.getText();
+     // senior citizen...
+     String citizen = "";
+     if (citizenButtonYes.isSelected()) {
+       citizen = "Yes";
+     }else if(citizenButtonNo.isSelected()) {
+      citizen = "No";
+     }
 
+     // For existing account
+     String eAccount = "";
+     if (existingAccountButtonYes.isSelected()) {
+      eAccount = "Yes";
+     } else if (existingAccountButtonNo.isSelected()) {
+      eAccount = "No";
+
+     }
+     try {
+      if(panField.getText().equals(" ")){
+       JOptionPane.showMessageDialog(null, "Field cannot be empty");
+      }else {
+       ConnectionDb connectionDb = new ConnectionDb();
+       String query = "INSERT INTO signup2 (formno, religion, category, income, education, occupation, pan, citizen, eaccount) " +
+               "VALUES ('"+formNo+"', '"+religion+"','"+category+"','"+income+"','"+education+"','"+occupation+"','"+pan+"', '"+citizen+"', '"+eAccount+"')";
+
+       connectionDb.statement.executeUpdate(query);
+       new Signup2(formNo);
+       setVisible(false);
+
+      }
+
+     } catch (Exception ex) {
+      throw new RuntimeException(ex);
+     }
 
 
     }
